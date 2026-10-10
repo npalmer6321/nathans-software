@@ -21,10 +21,13 @@ forgegpt/
     Tokenizer.kt        <- word-level tokenizer, vocab built from corpus
     Model.kt            <- decoder-only transformer + full manual backprop
     Adam.kt             <- Adam optimizer, hand-written
-    Train.kt            <- mini-batch training loop (multi-threaded)
+    Train.kt            <- CLI mini-batch training loop (multi-threaded)
+    Trainer.kt          <- callback-driven training engine (GUI Train tab)
     Generate.kt         <- causal sampling (temperature + top-k)
+    Engine.kt           <- UI-agnostic facade: load, streaming generate, evaluate, stats
     GradCheck.kt        <- numerical gradient self-test
-    Main.kt             <- CLI (train / generate / gradcheck)
+    Main.kt             <- CLI (train / generate / gradcheck / gui)
+    gui/                <- Swing desktop GUI (see "Desktop GUI" below)
   .vscode/
     tasks.json          <- one-click "Train model" / "Generate text" tasks
     launch.json         <- F5 run configs (needs Extension Pack for Java)
@@ -106,6 +109,53 @@ Training options: `--steps N --batch N --lr F --d-model N --layers N --heads N
 --seq-len N --ffn N --vocab N --seed N --log-every N --sample-every N
 --checkpoint-every N`. Generation options: `--prompt "..." --max-tokens N
 --temperature F --top-k N --seed N` (`--temperature 0` = greedy).
+
+## Desktop GUI
+
+ForgeGPT also ships a full Swing desktop app over the same engine — no
+extra dependencies, it's compiled into the same JAR:
+
+```bash
+java -jar forgegpt.jar gui
+```
+
+(needs a display; on a headless box use `xvfb-run -a java -jar forgegpt.jar gui`)
+
+If `model.fg` + `vocab.txt` sit in the working directory, the GUI loads
+them automatically; otherwise pick the files in the top bar and hit
+**Load model**. Five tabs:
+
+- **Generate** — prompt, temperature slider (0 = greedy), top-k, max
+  tokens and seed. Output *streams in token by token* so you watch it
+  write; Stop halts mid-generation; Copy/Save export the text. Shows
+  tokens/sec when done.
+- **Train** — the whole training setup on one form: corpus/weights/vocab
+  paths, resume-from-checkpoint, steps/batch/lr, d-model/layers/heads/
+  seq-len/FFN/vocab, seed, thread count, log/sample/checkpoint cadence,
+  optional pre-flight gradcheck. Live progress bar, loss + EMA + grad
+  norm + steps/sec + ETA, a scrolling **loss curve**, and the latest
+  periodic sample. **Smoke run** trains a toy config for a few steps to
+  prove your setup works. Finished runs save weights + vocab and offer
+  to point the app at them.
+- **Corpus** — dataset statistics for any corpus file (tokens, unique
+  tokens, type/token ratio, `<unk>` rate against the loaded tokenizer,
+  top-25 tokens), a filterable **vocabulary inspector** (token -> id),
+  a **tokenizer inspector** that shows exactly what the model sees for
+  text you type (ids, pieces, `<unk>` count, decode round-trip), and
+  the bundled public-domain book list with file sizes.
+- **Model Lab** — full model info (config, parameter count, file
+  sizes, random-guess loss baseline), a per-component **parameter
+  breakdown** table, save-a-copy of the weights, a **perplexity
+  mini-eval** that scores pasted text (loss + perplexity + best/worst
+  window), and a one-click **gradcheck runner** that verifies the
+  backprop numerically and shows its output.
+- **Logs / Settings** — the app's timestamped log (loads, generations,
+  training, errors) with clear/copy, plus editable model/vocab/corpus
+  paths, default seed, and output wrapping. Settings persist to
+  `forgegpt-ui.properties` in the working directory.
+
+Training and generation always run on background threads, so the
+window stays responsive during long runs.
 
 ## Proof run (shipped model)
 

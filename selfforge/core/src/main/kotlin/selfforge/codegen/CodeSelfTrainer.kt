@@ -31,6 +31,7 @@ class CodeSelfTrainer(
     val maxRounds: Int = 6,
     val epochsPerRound: Int = 60,
     val temperature: Double = 0.9,
+    val sampleLength: Int = 90,
     val patience: Int = 3
 ) {
     fun selfTeach(
@@ -53,7 +54,7 @@ class CodeSelfTrainer(
             repeat(programsPerRound) {
                 // Seed with a random first line from the corpus so programs start sanely.
                 val seedLine = corpus[rng.nextInt(corpus.size)].lineSequence().first()
-                val program = rnn.sample(seedLine + "\n", 140, temperature, rng).trim() + "\n"
+                val program = rnn.sample(seedLine + "\n", sampleLength, temperature, rng).trim() + "\n"
                 when (val r = interp.run(program)) {
                     is TinyPy.Result.Ok -> {
                         valid++

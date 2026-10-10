@@ -19,6 +19,8 @@ fi
 export PATH="$JAVA_HOME/bin:$PATH"
 
 echo "Compiling ForgeGPT..."
+# Only one `fun main` exists (Main.kt); the GUI is launched from it via the
+# `gui` command, so the JAR manifest keeps Main-Class: forgegpt.MainKt.
 "$KOTLINC" src -include-runtime -d forgegpt.jar
 echo "Built: $(pwd)/forgegpt.jar"
 ls -la forgegpt.jar

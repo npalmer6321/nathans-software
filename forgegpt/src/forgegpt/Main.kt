@@ -9,6 +9,7 @@ package forgegpt
  *   java -jar forgegpt.jar train    [options]   - train on the corpus
  *   java -jar forgegpt.jar generate [options]   - generate text
  *   java -jar forgegpt.jar gradcheck             - verify backprop math
+ *   java -jar forgegpt.jar gui                   - launch the Swing GUI
  */
 fun main(argv: Array<String>) {
     if (argv.isEmpty()) {
@@ -22,6 +23,7 @@ fun main(argv: Array<String>) {
             if (!GradCheck.run()) kotlin.system.exitProcess(1)
         }
         "dumpgrad" -> GradCheck.dump(argv.getOrElse(1) { "/tmp/gc_dump.txt" })
+        "gui" -> forgegpt.gui.launchGui()
         else -> {
             println("unknown command: ${argv[0]}")
             printUsage()
@@ -62,6 +64,9 @@ private fun printUsage() {
                     --seed N             sampling seed (default 7)
         
           gradcheck Verify the hand-written backprop with finite differences.
+
+          gui       Launch the Swing desktop GUI (Generate / Train / Corpus /
+                    Model Lab / Logs tabs over the same engine).
         """.trimIndent()
     )
 }

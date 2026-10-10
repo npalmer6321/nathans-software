@@ -20,7 +20,7 @@ two ways:
 Teaching the app a new ability = registering a new skill and giving it
 examples. Skills save to a file (weights + examples) and reload bit-identical.
 
-**Code lab:** a second, bigger brain — a character-level RNN (16k weights)
+**Code lab:** a second, bigger brain — a character-level RNN (26k weights)
 that learns to write programs in TinyPy (a tiny Python-like language with
 assignment, `print`, `if`, `while`, and comparisons), then **runs them with
 its own built-in interpreter**. Its recursive loop is generate → run → keep
@@ -46,8 +46,18 @@ dependencies) was compiled with kotlinc and run on a JVM. The demo output:
 - Second independent skill trained to 90.3% (multi-skill works)
 - Save → load round-trip: predictions bit-identical
 - Live predictions correct on probe points
+- Code lab: runnable TinyPy programs climbed **3% → 83%** over 6 self-teaching
+  rounds (training set grew 71 → 321 programs, all machine-written and verified
+  by actually running them). Full run: `selfforge.codegen.CodeDemoMainKt` (a few minutes).
 
-Run it yourself: compile `core/` with kotlinc and run `selfforge.DemoMainKt`.
+Run it yourself (needs kotlinc + a JDK/JRE 17+ on PATH):
+
+```bash
+kotlinc core/src/main/kotlin/selfforge/*.kt core/src/main/kotlin/selfforge/codegen/*.kt \
+  -include-runtime -d /tmp/selfforge-demo.jar
+java -cp /tmp/selfforge-demo.jar selfforge.DemoMainKt      # patterns demo (the numbers above)
+java -cp /tmp/selfforge-demo.jar selfforge.codegen.CodeDemoMainKt  # code-lab demo
+```
 
 ## The Android app
 
@@ -62,21 +72,27 @@ Two friendly tabs, plain language throughout, guided "▶ See it learn" demos:
 
 ## Build the APK / install
 
-**Easiest:** a signed debug APK is already built — install `SelfForge.apk`
-on the phone (you'll need to allow installs from this source once).
-Needs Android 8.0+.
+**Easiest:** a signed debug APK is included in this folder — install
+`SelfForge.apk` on the phone (you'll need to allow installs from this
+source once). Needs Android 8.0+.
 
 **From source:** open the `android/` folder in Android Studio, let it sync,
-then Build → Build APK(s). (The APK above was built with the standard
-toolchain: kotlinc → d8 → aapt2 → zipalign → apksigner.)
+then Build → Build APK(s). The app is plain Android framework (no androidx
+deps in `MainActivity`), and the sources are compile-verified against the
+Android 34 SDK. GUI entry point: `com.selfforge.app.MainActivity`.
 
 ## PC version
 
-`SelfForge-PC.jar` is the same app for desktop — a double-clickable Java
-program with the same two tabs (Patterns + Code) and the same self-teaching
-brains. Needs **Java 17 or newer** installed; then just double-click it, or
-run `java -jar SelfForge-PC.jar`. The desktop build uses slightly fuller
-training settings since PCs are faster than phones.
+`SelfForge-PC.jar` (included in this folder) is the same app for desktop —
+a double-clickable Java program with the same two tabs (Patterns + Code)
+and the same self-teaching brains. Needs **Java 17 or newer** installed;
+then just double-click it, or run `java -jar SelfForge-PC.jar`. The desktop
+build uses slightly fuller training settings since PCs are faster than phones.
+
+**Rebuild it from source:** with kotlinc on PATH, run `pc/build-pc.sh`
+(it compiles `core/` + `pc/` and writes a double-clickable
+`SelfForge-PC.jar` next to this README). GUI entry point:
+`selfforge.pc.DesktopAppKt` (`pc/src/main/kotlin/selfforge/pc/DesktopApp.kt`).
 
 ## Honest limits
 

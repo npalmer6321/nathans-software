@@ -10,11 +10,11 @@ import kotlin.random.Random
 fun main() {
     val vocab = CodeCorpus.vocab
     println("vocab (${vocab.size} chars): ${vocab.joinToString("").replace("\n", "\\n")}")
-    val rnn = CharRNN(vocab, hiddenSize = 96, learningRate = 0.05, seed = 7L)
+    val rnn = CharRNN(vocab, hiddenSize = 128, learningRate = 0.05, seed = 7L)
     println("code model weights: ${rnn.weightCount()}")
 
     // Warmup: learn the shape of code from the human corpus.
-    rnn.train(CodeCorpus.programs, epochs = 250)
+    rnn.train(CodeCorpus.programs, epochs = 400)
     println("train loss after warmup: ${"%.3f".format(rnn.loss(CodeCorpus.programs))}")
 
     val interp = TinyPy()
@@ -24,24 +24,24 @@ fun main() {
         var valid = 0
         repeat(n) {
             val seedLine = CodeCorpus.programs[rng.nextInt(CodeCorpus.programs.size)].lineSequence().first()
-            val program = rnn.sample(seedLine + "\n", 90, 0.9, rng).trim() + "\n"
+            val program = rnn.sample(seedLine + "\n", 90, 0.8, rng).trim() + "\n"
             if (interp.run(program) is TinyPy.Result.Ok) valid++
         }
         return valid.toDouble() / n
     }
 
-    val baseline = validPct(60)
+    val baseline = validPct(200)
     println("\n[baseline] valid programs before self-teaching: ${"%.0f".format(baseline * 100)}%")
 
     val corpus = CodeCorpus.programs.toMutableList()
-    val trainer = CodeSelfTrainer(programsPerRound = 40, maxRounds = 6, epochsPerRound = 60, temperature = 0.9)
+    val trainer = CodeSelfTrainer(programsPerRound = 200, maxRounds = 6, epochsPerRound = 30, temperature = 0.8, patience = 3)
     val reports = trainer.selfTeach(rnn, corpus, interp, seed = 99L)
     println("\n[self-teaching rounds]")
     for (r in reports) {
         println("  round ${r.round}: valid=${"%.0f".format(r.validPct * 100)}% " +
                 "kept ${r.kept} (training set now ${r.corpusSize})")
     }
-    val final = validPct(60)
+    val final = validPct(200)
     println("\n[result] valid programs: ${"%.0f".format(baseline * 100)}% -> ${"%.0f".format(final * 100)}%")
 
     val sample = reports.lastOrNull()?.sampleProgram
