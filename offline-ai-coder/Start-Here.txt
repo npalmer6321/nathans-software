@@ -1,0 +1,63 @@
+YOUR OFFLINE CODING AGENT - START HERE
+======================================
+
+What just got installed on this PC (all free, all yours, works offline):
+
+  * Ollama - runs the AI models locally, on this PC only.
+  * qwen-coder-14b-16k - your main coding model (Qwen2.5-Coder 14B with a
+    16K context window). This is the sharp one for real work.
+  * qwen2.5-coder:7b - the fast model, for quick questions and small edits.
+  * Cline inside VS Code - plans multi-file changes and shows you every
+    edit and command BEFORE it runs. You approve each one.
+  * Aider in the terminal - a second coding partner for quick jobs.
+
+After the one-time download, none of this needs the internet. Your code
+and prompts never leave this PC.
+
+----------------------------------------------------------------------
+FINISH CLINE (2 minutes, one time only)
+----------------------------------------------------------------------
+1. Open VS Code and click the Cline icon on the left side.
+2. Click the gear (Settings). Set:
+       API Provider ..... Ollama
+       Base URL ......... http://localhost:11434
+       Model ............ qwen-coder-14b-16k
+   API key stays blank.
+3. If a "Model Context Window" box appears, set it to 16384.
+4. IMPORTANT: leave "Auto-Approve" OFF. With it off, Cline asks before
+   every file edit and every command. That is your safety gate - keep it.
+
+----------------------------------------------------------------------
+USING AIDER (terminal)
+----------------------------------------------------------------------
+Double-click "Aider (Offline Coder)" on the desktop. It starts in your
+home folder; cd into a project and chat with it like a helper:
+    cd path\to\your\project
+    aider somefile.py
+Switch to the fast 7B model inside Aider any time:
+    /model ollama_chat/qwen2.5-coder:7b
+Switch back:
+    /model ollama_chat/qwen-coder-14b-16k
+
+----------------------------------------------------------------------
+PROVE IT WORKS OFFLINE (the airplane-mode test)
+----------------------------------------------------------------------
+Double-click "Run Offline Test" on the desktop. It walks you through:
+    1. Turn on airplane mode.
+    2. It confirms the internet is really off and lists your models.
+    3. Aider opens a tiny sample project (in your OfflineAgentTest
+       folder); you paste the task, approve the change, and watch.
+    4. It runs the tests. Green means your agent just planned, edited,
+       and verified code with zero internet.
+
+----------------------------------------------------------------------
+IF SOMETHING DIDN'T FINISH
+----------------------------------------------------------------------
+Re-run OfflineCodingAgent-Setup.exe - it only fetches what's missing.
+Full details are logged in:
+    %LOCALAPPDATA%\OfflineCodingAgent\setup.log
+Send Infusion the last lines of that log if anything looks stuck.
+
+Uninstall: Settings > Apps > Offline Coding Agent > Uninstall.
+(The models in %USERPROFILE%\.ollama can be deleted by hand to free
+about 14 GB if you ever want the space back.)
