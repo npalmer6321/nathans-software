@@ -1,4 +1,6 @@
 (function () {
+  var cfg = window.SITE_CONFIG || {};
+
   var btn = document.querySelector('.menu-btn');
   var nav = document.getElementById('nav');
   btn.addEventListener('click', function () {
@@ -9,17 +11,27 @@
     if (e.target.tagName === 'A') { nav.classList.remove('open'); btn.setAttribute('aria-expanded', false); }
   });
 
-  var amounts = document.querySelectorAll('.amounts button');
-  var msg = document.getElementById('donate-msg');
-  var link = document.getElementById('donate-link');
-  amounts.forEach(function (b) {
-    b.addEventListener('click', function () {
-      amounts.forEach(function (x) { x.classList.remove('on'); });
-      b.classList.add('on');
-      var amt = Number(b.dataset.amt);
-      msg.textContent = '$' + amt + ' provides about ' + amt * 2 + ' meals.';
-      link.textContent = 'Donate $' + amt;
-    });
+  var donate = document.getElementById('donate-link');
+  if (/^https:\/\//.test(cfg.donateUrl || '')) {
+    donate.href = cfg.donateUrl;
+    donate.textContent = 'Donate';
+    donate.removeAttribute('aria-disabled');
+    donate.rel = 'noopener';
+  } else {
+    donate.addEventListener('click', function (e) { e.preventDefault(); });
+  }
+
+  var email = cfg.contactEmail || '';
+  if (email) document.getElementById('footer-email').href = 'mailto:' + email;
+
+  document.getElementById('volunteer-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!email) return;
+    var f = e.target;
+    var body = 'Name: ' + f.name.value + '\nEmail: ' + f.email.value + '\n\n' + f.message.value;
+    window.location.href = 'mailto:' + email +
+      '?subject=' + encodeURIComponent("Nathan's Software: " + f.interest.value) +
+      '&body=' + encodeURIComponent(body);
   });
 
   document.getElementById('year').textContent = new Date().getFullYear();

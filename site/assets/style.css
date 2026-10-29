@@ -51,6 +51,9 @@ label{display:grid;gap:4px;font-weight:600;font-size:.95rem}
 input,select{font:inherit;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink)}
 .donate{background:var(--green-d);color:#fff;text-align:center}
 .donate .wrap{max-width:640px}
+.sub{color:var(--muted);margin-top:-.5em}
+.btn[aria-disabled=true]{opacity:.7;cursor:not-allowed}
+textarea{font:inherit;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink)}
 .amounts{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:20px 0}
 .amounts button{font:700 1.1rem system-ui;padding:10px 22px;border-radius:999px;border:2px solid #fff;background:transparent;color:#fff;cursor:pointer}
 .amounts button.on,.amounts button:hover{background:#fff;color:var(--green-d)}
