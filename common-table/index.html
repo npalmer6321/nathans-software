@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Common Table — Neighbors feeding neighbors</title>
+  <meta name="description" content="Common Table is a community nonprofit that grows, shares and cooks food together so that no neighbor goes hungry.">
+  <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <div class="notice" role="note">Demo site: Common Table is a fictional organization. Names, numbers and contact details are placeholders to replace with your own.</div>
+
+  <header class="site-header">
+    <a class="brand" href="#top"><img src="assets/logo.svg" alt="" width="36" height="36"> Common Table</a>
+    <button class="menu-btn" aria-expanded="false" aria-controls="nav">Menu</button>
+    <nav id="nav" aria-label="Main">
+      <a href="#mission">Mission</a>
+      <a href="#programs">Programs</a>
+      <a href="#impact">Impact</a>
+      <a href="#events">Events</a>
+      <a href="#get-involved">Get involved</a>
+      <a class="btn btn-small" href="#donate">Donate</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top">
+      <div class="wrap">
+        <p class="eyebrow">Neighbors feeding neighbors</p>
+        <h1>Everyone deserves a seat at the table.</h1>
+        <p class="lead">We grow food in shared gardens, rescue what would be wasted, and cook together every week, so no one in our community goes hungry.</p>
+        <p class="cta">
+          <a class="btn" href="#donate">Give today</a>
+          <a class="btn btn-ghost" href="#get-involved">Volunteer with us</a>
+        </p>
+      </div>
+    </section>
+
+    <section id="mission" class="wrap two-col">
+      <div>
+        <h2>Our mission</h2>
+        <p>Common Table builds a food system rooted in dignity and neighborliness. We believe fresh food is a right, not a privilege, and that the best way to fight hunger is to do it together.</p>
+      </div>
+      <ul class="values">
+        <li><strong>Dignity first.</strong> Free, no-questions-asked access to food.</li>
+        <li><strong>Local &amp; fresh.</strong> Grown and rescued within ten miles.</li>
+        <li><strong>Built together.</strong> Neighbors are volunteers, cooks and leaders.</li>
+      </ul>
+    </section>
+
+    <section id="programs" class="band">
+      <div class="wrap">
+        <h2>What we do</h2>
+        <div class="cards">
+          <article class="card">
+            <h3>Community Gardens</h3>
+            <p>Six shared plots where families grow vegetables, swap seeds and learn from one another. No experience needed.</p>
+          </article>
+          <article class="card">
+            <h3>Food Rescue</h3>
+            <p>Volunteer drivers collect surplus produce and bakery goods from local grocers and deliver it the same day.</p>
+          </article>
+          <article class="card">
+            <h3>Neighbor Suppers</h3>
+            <p>A free community meal every Thursday. Come hungry, bring a friend, stay to help with dishes or don't.</p>
+          </article>
+          <article class="card">
+            <h3>Kitchen Skills</h3>
+            <p>Free cooking and nutrition classes for teens and adults, with ingredients to take home.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="impact" class="wrap">
+      <h2>Our impact <small>(sample figures)</small></h2>
+      <div class="stats">
+        <div><span class="num" data-count="48000">48,000</span><span>meals shared each year</span></div>
+        <div><span class="num" data-count="120">120</span><span>active volunteers</span></div>
+        <div><span class="num" data-count="6">6</span><span>community gardens</span></div>
+        <div><span class="num" data-count="92">92</span><span>cents of every dollar to programs</span></div>
+      </div>
+      <blockquote>
+        “I came for a meal and stayed to run the Thursday kitchen. It feels like family.”
+        <cite>— Sample neighbor testimonial</cite>
+      </blockquote>
+    </section>
+
+    <section id="events" class="band">
+      <div class="wrap">
+        <h2>Upcoming events</h2>
+        <ul class="events" id="event-list">
+          <li><time datetime="2026-11-05">Nov 5</time><div><strong>Neighbor Supper</strong><span>6:00 pm · Community Hall</span></div></li>
+          <li><time datetime="2026-11-14">Nov 14</time><div><strong>Winter Garden Prep Day</strong><span>9:00 am · Maple Street Garden</span></div></li>
+          <li><time datetime="2026-11-21">Nov 21</time><div><strong>Holiday Food Drive</strong><span>10:00 am · Main Street Market</span></div></li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="get-involved" class="wrap two-col">
+      <div>
+        <h2>Get involved</h2>
+        <p>Whether you have an hour a month or a few hours a week, there is a place for you. Tell us a little about yourself and we will be in touch.</p>
+      </div>
+      <form id="volunteer-form" action="mailto:hello@example.org" method="post" enctype="text/plain">
+        <label>Name <input name="name" required autocomplete="name"></label>
+        <label>Email <input name="email" type="email" required autocomplete="email"></label>
+        <label>I'd like to help with
+          <select name="interest">
+            <option>Gardens</option><option>Food rescue</option><option>Suppers</option><option>Classes</option><option>Not sure yet</option>
+          </select>
+        </label>
+        <button class="btn" type="submit">Sign me up</button>
+      </form>
+    </section>
+
+    <section id="donate" class="donate">
+      <div class="wrap">
+        <h2>Help us set more places</h2>
+        <p>Every gift goes straight to growing, rescuing and cooking food for our neighbors.</p>
+        <div class="amounts" role="group" aria-label="Donation amount">
+          <button type="button" data-amt="25">$25</button>
+          <button type="button" data-amt="50" class="on">$50</button>
+          <button type="button" data-amt="100">$100</button>
+          <button type="button" data-amt="250">$250</button>
+        </div>
+        <p id="donate-msg" class="meter">$50 provides about 100 meals.</p>
+        <!-- Replace the href with your real donation link (Givebutter, Zeffy, PayPal Giving Fund, etc.) -->
+        <a class="btn btn-gold" id="donate-link" href="#donate">Donate $50</a>
+        <p class="fine">Common Table is a fictional 501(c)(3) example. Replace this with your own EIN and donation link.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div><strong>Common Table</strong><br>123 Main Street, Anytown, USA<br><a href="mailto:hello@example.org">hello@example.org</a></div>
+      <div>&copy; <span id="year">2026</span> Common Table. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <script src="assets/main.js"></script>
+</body>
+</html>
